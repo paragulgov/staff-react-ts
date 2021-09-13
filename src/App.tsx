@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { PATH } from './utils/routes'
+import { StaffList } from './pages/StaffList'
+import { Container, LinearProgress } from '@material-ui/core'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { observer } from 'mobx-react-lite'
+import staffList from './store/staff'
+import { MemberProfile } from './pages/MemberProfile'
 
-function App() {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      minHeight: '100vh',
+      background: '#F5F5F5',
+    },
+    content: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      padding: theme.spacing(2)
+    }
+  })
+)
+
+export const App = observer(() => {
+  const classes = useStyles()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div className={classes.root}>
+      {staffList.load && <LinearProgress />}
 
-export default App;
+      <Container maxWidth="lg">
+        <div className={classes.content}>
+          <Switch>
+            <Route exact path={PATH.STAFF_LIST}>
+              <StaffList />
+            </Route>
+
+            <Route path={PATH.MEMBER_PROFILE + '/:userId'}>
+              <MemberProfile />
+            </Route>
+
+            <Route path={'*'}>
+              <h3>404</h3>
+            </Route>
+          </Switch>
+        </div>
+
+      </Container>
+    </div>
+  )
+})
