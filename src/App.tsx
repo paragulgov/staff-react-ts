@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { PATH } from './utils/routes'
 import { StaffList } from './pages/StaffList'
-import { Container, LinearProgress } from '@material-ui/core'
+import { Container, LinearProgress, Typography } from '@material-ui/core'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { observer } from 'mobx-react-lite'
 import staffList from './store/staff'
@@ -43,7 +43,9 @@ export const App = observer(() => {
             </Route>
 
             <Route path={'*'}>
-              <h3>404</h3>
+              <Typography variant="overline" display="block">
+                ERROR 404 - NOT FOUND
+              </Typography>
             </Route>
           </Switch>
         </div>
